@@ -18,7 +18,7 @@ export async function analyzeMRI(file) {
     const timeout = setTimeout(() => controller.abort(), 180000);
 
     try {
-        const response = await fetch(`${API_BASE}/predict?gradcam=false`, {
+        const response = await fetch(`${API_BASE}/predict?gradcam=true`, {
             method: 'POST',
             body: formData,
             signal: controller.signal,
