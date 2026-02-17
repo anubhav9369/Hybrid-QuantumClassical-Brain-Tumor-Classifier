@@ -89,8 +89,8 @@ def get_risk_level(prediction: str, confidence: float) -> dict:
 # ==============================
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup — preload model
-    get_model()
+    # Startup — log ready (model loads lazily on first request)
+    print("🚀 Server starting up... Model will load on first request.")
     yield
     # Shutdown — nothing special needed
 
