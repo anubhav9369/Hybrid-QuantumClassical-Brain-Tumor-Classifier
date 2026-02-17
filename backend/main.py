@@ -162,11 +162,12 @@ async def health_check():
 
 
 @app.post("/predict")
-async def predict(file: UploadFile = File(...)):
+async def predict(file: UploadFile = File(...), gradcam: bool = True):
     """
     Classify a brain MRI scan.
 
     Accepts: multipart/form-data with 'file' field (JPG/PNG image)
+    Query params: gradcam=true|false (default true, set false for faster response)
     Returns: prediction, confidence, probabilities, gradcam images, risk level
     """
     # Validate file type
@@ -201,12 +202,18 @@ async def predict(file: UploadFile = File(...)):
             for i in range(len(CLASS_NAMES))
         }
 
-        # --- Grad-CAM ---
-        # Re-create tensor with grad enabled for Grad-CAM
-        gradcam_tensor = transform(image).unsqueeze(0)
-        gradcam_images = generate_all_gradcams(
-            model, gradcam_tensor, image, CLASS_NAMES
-        )
+        # --- Grad-CAM (optional) ---
+        gradcam_images = {}
+        if gradcam:
+            try:
+                gradcam_tensor = transform(image).unsqueeze(0)
+                # Only generate for predicted class (much faster)
+                gradcam_images = generate_all_gradcams(
+                    model, gradcam_tensor, image, [prediction]
+                )
+            except Exception as e:
+                print(f"⚠️ Grad-CAM failed (non-fatal): {e}")
+                gradcam_images = {}
 
         # --- Risk Level ---
         risk = get_risk_level(prediction, confidence)

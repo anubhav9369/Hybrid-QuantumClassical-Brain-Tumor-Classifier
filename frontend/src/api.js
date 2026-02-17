@@ -13,17 +13,31 @@ export async function analyzeMRI(file) {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch(`${API_BASE}/predict`, {
-        method: 'POST',
-        body: formData,
-    });
+    // Use AbortController for timeout (3 min for deployed backend)
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 180000);
 
-    if (!response.ok) {
-        const error = await response.json().catch(() => ({ detail: 'Server error' }));
-        throw new Error(error.detail || `HTTP ${response.status}`);
+    try {
+        const response = await fetch(`${API_BASE}/predict?gradcam=false`, {
+            method: 'POST',
+            body: formData,
+            signal: controller.signal,
+        });
+
+        if (!response.ok) {
+            const error = await response.json().catch(() => ({ detail: 'Server error' }));
+            throw new Error(error.detail || `HTTP ${response.status}`);
+        }
+
+        return response.json();
+    } catch (err) {
+        if (err.name === 'AbortError') {
+            throw new Error('Request timed out. The server may be waking up — please try again.');
+        }
+        throw err;
+    } finally {
+        clearTimeout(timeout);
     }
-
-    return response.json();
 }
 
 /**
