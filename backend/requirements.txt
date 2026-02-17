@@ -1,8 +1,9 @@
 fastapi==0.128.8
 uvicorn==0.39.0
 python-multipart==0.0.20
-torch>=2.0.0
-torchvision>=0.15.0
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.1.2+cpu
+torchvision==0.16.2+cpu
 pennylane==0.37.0
 autoray==0.6.12
 Pillow>=10.0.0
