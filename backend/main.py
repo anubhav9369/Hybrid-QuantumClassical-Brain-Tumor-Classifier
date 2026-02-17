@@ -38,18 +38,38 @@ transform = transforms.Compose([
 ])
 
 # ==============================
-# MODEL SINGLETON
+# MODEL SINGLETON (background loading)
 # ==============================
+import threading
+
 model_instance = None
+model_loading = False
+model_error = None
+model_ready = threading.Event()
+
+
+def _load_model_background():
+    """Load model in a background thread so server port binds immediately."""
+    global model_instance, model_loading, model_error
+    model_loading = True
+    try:
+        print(f"⏳ Loading model from {MODEL_PATH}...")
+        model_instance = load_model(MODEL_PATH, device="cpu")
+        print("✅ Model loaded successfully!")
+    except Exception as e:
+        model_error = str(e)
+        print(f"❌ Model loading failed: {e}")
+    finally:
+        model_loading = False
+        model_ready.set()
 
 
 def get_model():
-    """Load model once and cache."""
-    global model_instance
-    if model_instance is None:
-        print(f"Loading model from {MODEL_PATH}...")
-        model_instance = load_model(MODEL_PATH, device="cpu")
-        print("Model loaded successfully!")
+    """Get model, waiting for background loading to complete."""
+    if not model_ready.wait(timeout=120):  # Wait up to 2 min
+        raise RuntimeError("Model loading timed out")
+    if model_error:
+        raise RuntimeError(f"Model failed to load: {model_error}")
     return model_instance
 
 
@@ -89,10 +109,12 @@ def get_risk_level(prediction: str, confidence: float) -> dict:
 # ==============================
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup — log ready (model loads lazily on first request)
-    print("🚀 Server starting up... Model will load on first request.")
+    # Start model loading in background thread
+    thread = threading.Thread(target=_load_model_background, daemon=True)
+    thread.start()
+    print("🚀 Server is ready! Model loading in background...")
     yield
-    # Shutdown — nothing special needed
+    # Shutdown
 
 
 # ==============================
@@ -130,10 +152,11 @@ async def root():
 
 @app.get("/health")
 async def health_check():
-    model = get_model()
     return {
         "status": "healthy",
-        "model_loaded": model is not None,
+        "model_loaded": model_instance is not None,
+        "model_loading": model_loading,
+        "model_error": model_error,
         "device": "cpu",
     }
 
