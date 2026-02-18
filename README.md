@@ -62,26 +62,22 @@ Capstone_app/
 ### Frontend → Vercel
 
 1. Push to GitHub.
-2. Import repository on [vercel.com](https://vercel.com](https://hybrid-quantum-classical-brain-tumo.vercel.app/).
+2. Import repository on [vercel.com](https://hybrid-quantum-classical-brain-tumo.vercel.app/).
 3. Set **Root Directory** to `frontend`.
 4. Set **Environment Variable**:
-   - `VITE_API_URL` = your deployed backend URL (e.g., `https://your-backend.onrender.com`)
+   - `Key - values ` = your deployed backend URL (e.g., `https://hybrid-quantumclassical-brain-tumor.onrender.com/`)
 5. Deploy.
 
 ### Backend → Render
 
 1. Push to GitHub.
-2. Create a new **Web Service** on [render.com](https://render.com](https://hybrid-quantumclassical-brain-tumor.onrender.com/).
+2. Create a new **Web Service** on [render.com](https://hybrid-quantumclassical-brain-tumor.onrender.com/).
 3. Set **Root Directory** to `backend`.
 4. **Build Command**: `pip install -r requirements.txt`
 5. **Start Command**: `uvicorn main:app --host 0.0.0.0 --port $PORT`
 6. Upload `best_hybrid_quantum_model.pth` (or set a persistent disk).
 
-### Backend → HuggingFace Spaces
-
-1. Create a new Space (Docker or Gradio SDK type).
-2. Upload all `backend/` files + `best_hybrid_quantum_model.pth`.
-3. Ensure the `main.py` model path points to the correct checkpoint location.
+Now when we start the Project from Vercel it recalls the model from render through key values and predict from there.
 
 ## ⚠️ Disclaimer
 For research purposes only. Not a substitute for medical diagnosis.
