@@ -62,7 +62,7 @@ Capstone_app/
 ### Frontend → Vercel
 
 1. Push to GitHub.
-2. Import repository on [vercel.com](https://vercel.com).
+2. Import repository on [vercel.com]([https://vercel.com](https://hybrid-quantum-classical-brain-tumo.vercel.app/)).
 3. Set **Root Directory** to `frontend`.
 4. Set **Environment Variable**:
    - `VITE_API_URL` = your deployed backend URL (e.g., `https://your-backend.onrender.com`)
@@ -71,7 +71,7 @@ Capstone_app/
 ### Backend → Render
 
 1. Push to GitHub.
-2. Create a new **Web Service** on [render.com](https://render.com).
+2. Create a new **Web Service** on [render.com]([https://render.com](https://hybrid-quantumclassical-brain-tumor.onrender.com/)).
 3. Set **Root Directory** to `backend`.
 4. **Build Command**: `pip install -r requirements.txt`
 5. **Start Command**: `uvicorn main:app --host 0.0.0.0 --port $PORT`
