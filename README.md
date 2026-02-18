@@ -1,9 +1,7 @@
 # 🧠 Hybrid Quantum-Classical Brain Tumor Classifier
 
-Full-stack web application for classifying brain MRI scans using a hybrid DenseNet121 + PennyLane quantum computing model.
-
-**Classes:** Glioma · Meningioma · No Tumor · Pituitary
-
+A web app that uses **Quantum Computing + Deep Learning** to classify 
+brain tumors from MRI scans.
 ---
 
 ## Project Structure
@@ -30,28 +28,32 @@ Capstone_app/
 ```
 
 ---
+## 🎯 Features
+- 🌡️ **Grad-CAM** - Visual attention heatmaps
+- ⚛️ **Quantum Analysis** - 4-qubit circuit visualization  
+- 🔬 **Feature Analysis** - DenseNet121 feature maps
+- 📈 **Confidence Analysis** - Reliability indicators
+- 🏥 **Clinical Report** - Medical context & guidance
 
-## Local Development
+## 📊 Model Performance
+| Metric | Value |
+|--------|-------|
+| Test Accuracy | 88.30% |
+| Baseline (DenseNet121) | 82.30% |
+| Improvement | +6.00% |
 
-### Backend
+## 🏗️ Architecture
+- **Classical**: DenseNet121 (pretrained ImageNet)
+- **Quantum**: 4-qubit variational circuit (PennyLane)
+- **Dataset**: BRISC 2025 (6,000 MRI scans)
 
-```bash
-cd backend
-pip install -r requirements.txt
-python main.py
-# Runs at http://localhost:8000
-# Swagger docs: http://localhost:8000/docs
-```
-
-### Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-# Runs at http://localhost:5173
-# Proxies /api to backend at localhost:8000
-```
+## 🔬 Tumor Classes
+| Class | Description |
+|-------|-------------|
+| 🔴 Glioma | Most common primary brain tumor |
+| 🟠 Meningioma | Arises from meninges |
+| 🟢 No Tumor | Normal brain scan |
+| 🔵 Pituitary | Pituitary gland tumor |
 
 ---
 
@@ -81,45 +83,5 @@ npm run dev
 2. Upload all `backend/` files + `best_hybrid_quantum_model.pth`.
 3. Ensure the `main.py` model path points to the correct checkpoint location.
 
----
-
-## API Reference
-
-### `POST /predict`
-
-**Request:** `multipart/form-data` with `file` field (JPG/PNG)
-
-**Response:**
-```json
-{
-  "prediction": "meningioma",
-  "confidence": 0.9788,
-  "probabilities": {
-    "glioma": 0.0034,
-    "meningioma": 0.9788,
-    "no_tumor": 0.0158,
-    "pituitary": 0.0020
-  },
-  "gradcam_images": { "glioma": "base64...", "...": "..." },
-  "risk_level": { "level": "HIGH RISK", "color": "red", "description": "..." },
-  "model_accuracy": 0.883,
-  "uploaded_image": "base64..."
-}
-```
-
-### `GET /health`
-
-Returns model status.
-
----
-
-## Tech Stack
-
-| Layer    | Technology                      |
-|----------|---------------------------------|
-| Model    | PyTorch + PennyLane (Quantum)   |
-| Backend  | FastAPI + Uvicorn               |
-| Frontend | React + Vite + Tailwind CSS v4  |
-| Charts   | Recharts                        |
-| Animations | Framer Motion                 |
-| Icons    | Lucide React                    |
+## ⚠️ Disclaimer
+For research purposes only. Not a substitute for medical diagnosis.
