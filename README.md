@@ -65,7 +65,7 @@ Capstone_app/
 2. Import repository on [vercel.com](https://hybrid-quantum-classical-brain-tumo.vercel.app/).
 3. Set **Root Directory** to `frontend`.
 4. Set **Environment Variable**:
-   - `Key - values ` = your deployed backend URL (e.g., `https://hybrid-quantumclassical-brain-tumor.onrender.com/`)
+   - `Key - values ` = your deployed backend URL (e.g., [render.com](https://hybrid-quantumclassical-brain-tumor.onrender.com/))
 5. Deploy.
 
 ### Backend → Render
