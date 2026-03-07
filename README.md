@@ -70,6 +70,11 @@ Capstone_app/
 
 ### Backend → Render
 
+### Demo -
+<img width="1038" height="567" alt="image" src="https://github.com/user-attachments/assets/3e6ac6bd-40d4-4eea-b525-cc43b5446a0f" />
+
+
+
 1. Push to GitHub.
 2. Create a new **Web Service** on [render.com](https://hybrid-quantumclassical-brain-tumor.onrender.com/).
 3. Set **Root Directory** to `backend`.
