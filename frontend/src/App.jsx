@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { AlertCircle, Eye, Atom, Layers, ShieldCheck, FileText } from 'lucide-react';
 
 import Header from './components/Header';
+import BackendStatus from './components/BackendStatus'; // ← ADD THIS
 import UploadSection from './components/UploadSection';
 import LoadingSpinner from './components/LoadingSpinner';
 import ResultsDashboard from './components/ResultsDashboard';
@@ -78,6 +79,9 @@ export default function App() {
   return (
     <div className="min-h-screen pb-12">
       <Header />
+
+      {/* ADD BackendStatus component here - right after Header */}
+      <BackendStatus />
 
       <UploadSection onAnalyze={handleAnalyze} isLoading={isLoading} />
 
