@@ -2,7 +2,6 @@
 
 A web app that uses **Quantum Computing + Deep Learning** to classify 
 brain tumors from MRI scans.
----
 
 ## Project Structure
 
